@@ -1,0 +1,195 @@
+#include <MKL25Z4.h> 
+#include "constants.h"
+#include "led.h"
+
+void green_led_on() {
+	PTA->PDOR |= MASK(LED_PTA1);
+	PTC->PDOR |= MASK(LED_PTC3);
+	PTC->PDOR |= MASK(LED_PTC10);
+	PTA->PDOR |= MASK(LED_PTA12);
+	PTA->PDOR |= MASK(LED_PTA4);
+	PTA->PDOR |= MASK(LED_PTA5);
+	PTC->PDOR |= MASK(LED_PTC8);
+	PTC->PDOR |= MASK(LED_PTC0);
+}
+
+void green_led_off() {
+	PTA->PDOR &= ~MASK(LED_PTA1);
+	PTC->PDOR &= ~MASK(LED_PTC3);
+	PTC->PDOR &= ~MASK(LED_PTC10);
+	PTA->PDOR &= ~MASK(LED_PTA12);
+	PTA->PDOR &= ~MASK(LED_PTA4);
+	PTA->PDOR &= ~MASK(LED_PTA5);
+	PTC->PDOR &= ~MASK(LED_PTC8);
+	PTC->PDOR &= ~MASK(LED_PTC0);
+}
+
+void green_led_running(int counter) {
+	if (counter == 0) {
+	  PTA->PDOR |= MASK(LED_PTA1);
+	} else {
+	  PTA->PDOR &= ~MASK(LED_PTA1);
+	}
+	if (counter == 1) {
+		PTC->PDOR |= MASK(LED_PTC3);
+	} else {
+		PTC->PDOR &= ~MASK(LED_PTC3);
+	}
+	if (counter == 2) {
+	  PTC->PDOR |= MASK(LED_PTC10);
+	} else {
+	  PTC->PDOR &= ~MASK(LED_PTC10);
+	}
+	if (counter == 3) {
+	  PTA->PDOR |= MASK(LED_PTA12);
+	} else {
+		PTA->PDOR &= ~MASK(LED_PTA12);
+	}
+	if (counter == 4) {
+	  PTA->PDOR |= MASK(LED_PTA4);
+	} else {
+	  PTA->PDOR &= ~MASK(LED_PTA4);
+	}
+	if (counter == 5) {
+	  PTA->PDOR |= MASK(LED_PTA5);
+	} else {
+	  PTA->PDOR &= ~MASK(LED_PTA5);
+	}
+	if (counter == 6) {
+	  PTC->PDOR |= MASK(LED_PTC8);
+	} else {
+	  PTC->PDOR &= ~MASK(LED_PTC8);
+	}
+	if (counter == 7) {
+		PTC->PDOR |= MASK(LED_PTC0);
+	} else {
+		PTC->PDOR &= ~MASK(LED_PTC0);
+	}
+}
+
+void green_led_init() {
+	PORTA->PCR[LED_PTA1] &= ~PORT_PCR_MUX_MASK;
+	PORTA->PCR[LED_PTA1] |= PORT_PCR_MUX(1);
+	
+	PORTC->PCR[LED_PTC3] &= ~PORT_PCR_MUX_MASK;
+	PORTC->PCR[LED_PTC3] |= PORT_PCR_MUX(1);
+
+	PORTC->PCR[LED_PTC10] &= ~PORT_PCR_MUX_MASK;
+	PORTC->PCR[LED_PTC10] |= PORT_PCR_MUX(1);
+
+	PORTA->PCR[LED_PTA12] &= ~PORT_PCR_MUX_MASK;
+	PORTA->PCR[LED_PTA12] |= PORT_PCR_MUX(1);
+	
+	PORTA->PCR[LED_PTA4] &= ~PORT_PCR_MUX_MASK;
+	PORTA->PCR[LED_PTA4] |= PORT_PCR_MUX(1);
+
+	PORTA->PCR[LED_PTA5] &= ~PORT_PCR_MUX_MASK;
+	PORTA->PCR[LED_PTA5] |= PORT_PCR_MUX(1);
+
+	PORTC->PCR[LED_PTC8] &= ~PORT_PCR_MUX_MASK;
+	PORTC->PCR[LED_PTC8] |= PORT_PCR_MUX(1);
+
+	PORTC->PCR[LED_PTC0] &= ~PORT_PCR_MUX_MASK;
+	PORTC->PCR[LED_PTC0] |= PORT_PCR_MUX(1);
+
+	// Set pins to output
+	PTA->PDDR |= MASK(LED_PTA1);
+	PTC->PDDR |= MASK(LED_PTC3);
+	PTC->PDDR |= MASK(LED_PTC10);
+	PTA->PDDR |= MASK(LED_PTA12);
+	PTA->PDDR |= MASK(LED_PTA4);
+	PTA->PDDR |= MASK(LED_PTA5);
+	PTC->PDDR |= MASK(LED_PTC8);
+	PTC->PDDR |= MASK(LED_PTC0);
+	
+	// Turn off leds
+	green_led_off();
+}
+
+void red_led_init() {
+	// Enable pins as gpio
+	PORTC->PCR[LED_PTC1] &= ~PORT_PCR_MUX_MASK;
+	PORTC->PCR[LED_PTC1] |= PORT_PCR_MUX(1);
+
+	PORTC->PCR[LED_PTC2] &= ~PORT_PCR_MUX_MASK;
+	PORTC->PCR[LED_PTC2] |= PORT_PCR_MUX(1);
+
+	PORTE->PCR[LED_PTE30] &= ~PORT_PCR_MUX_MASK;
+	PORTE->PCR[LED_PTE30] |= PORT_PCR_MUX(1);
+	
+	PORTE->PCR[LED_PTE29] &= ~PORT_PCR_MUX_MASK;
+	PORTE->PCR[LED_PTE29] |= PORT_PCR_MUX(1);
+	
+	PORTB->PCR[LED_PTB3] &= ~PORT_PCR_MUX_MASK;
+	PORTB->PCR[LED_PTB3] |= PORT_PCR_MUX(1);
+	
+	PORTB->PCR[LED_PTB8] &= ~PORT_PCR_MUX_MASK;
+	PORTB->PCR[LED_PTB8] |= PORT_PCR_MUX(1);	
+
+	PORTB->PCR[LED_PTB9] &= ~PORT_PCR_MUX_MASK;
+	PORTB->PCR[LED_PTB9] |= PORT_PCR_MUX(1);
+
+	PORTB->PCR[LED_PTB10] &= ~PORT_PCR_MUX_MASK;
+	PORTB->PCR[LED_PTB10] |= PORT_PCR_MUX(1);
+	
+	PORTB->PCR[LED_PTB11] &= ~PORT_PCR_MUX_MASK;
+	PORTB->PCR[LED_PTB11] |= PORT_PCR_MUX(1);
+	
+	PORTE->PCR[LED_PTE2] &= ~PORT_PCR_MUX_MASK;
+	PORTE->PCR[LED_PTE2] |= PORT_PCR_MUX(1);
+	
+	// Set pins to output
+	PTC->PDDR |= MASK(LED_PTC1);
+	PTC->PDDR |= MASK(LED_PTC2);
+	PTE->PDDR |= MASK(LED_PTE30);
+	PTE->PDDR |= MASK(LED_PTE29);
+	PTB->PDDR |= MASK(LED_PTB3);
+	PTB->PDDR |= MASK(LED_PTB8);
+	PTB->PDDR |= MASK(LED_PTB9);
+	PTB->PDDR |= MASK(LED_PTB10);
+	PTB->PDDR |= MASK(LED_PTB11);
+	PTE->PDDR |= MASK(LED_PTE2);
+	
+	// Turn off leds
+	red_led_off();
+}
+
+void red_led_toggle() {
+	PTC->PTOR |= MASK(LED_PTC1);
+	PTC->PTOR |= MASK(LED_PTC2);
+	PTE->PTOR |= MASK(LED_PTE30);
+	PTE->PTOR |= MASK(LED_PTE29);
+	PTB->PTOR |= MASK(LED_PTB3);
+	PTB->PTOR |= MASK(LED_PTB8);
+	PTB->PTOR |= MASK(LED_PTB9);
+	PTB->PTOR |= MASK(LED_PTB10);
+	PTB->PTOR |= MASK(LED_PTB11);
+	PTE->PTOR |= MASK(LED_PTE2);	
+}
+
+
+void red_led_on() {
+	PTC->PDOR |= MASK(LED_PTC1);
+	PTC->PDOR |= MASK(LED_PTC2);
+	PTE->PDOR |= MASK(LED_PTE30);
+	PTE->PDOR |= MASK(LED_PTE29);
+	PTB->PDOR |= MASK(LED_PTB3);
+	PTB->PDOR |= MASK(LED_PTB8);
+	PTB->PDOR |= MASK(LED_PTB9);
+	PTB->PDOR |= MASK(LED_PTB10);
+	PTB->PDOR |= MASK(LED_PTB11);
+	PTE->PDOR |= MASK(LED_PTE2);	
+}
+
+void red_led_off() {
+	PTC->PDOR &= ~MASK(LED_PTC1);
+	PTC->PDOR &= ~MASK(LED_PTC2);
+	PTE->PDOR &= ~MASK(LED_PTE30);
+	PTE->PDOR &= ~MASK(LED_PTE29);
+	PTB->PDOR &= ~MASK(LED_PTB3);
+	PTB->PDOR &= ~MASK(LED_PTB8);
+	PTB->PDOR &= ~MASK(LED_PTB9);
+	PTB->PDOR &= ~MASK(LED_PTB10);
+	PTB->PDOR &= ~MASK(LED_PTB11);
+	PTE->PDOR &= ~MASK(LED_PTE2);	
+}
